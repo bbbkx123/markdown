@@ -151,11 +151,13 @@ function deepClone (target, map = new Map()) {
 }
 
 const obj = {
-    arr: [111, 222],
-    obj: {key: '对象'},
-    a: () => {console.log('函数')},
-    date: new Date()
+  arr: [111, 222],
+  obj: {key: '对象'},
+  a: () => {console.log('函数')},
+  date: new Date(),
+  b: null
 }
+obj.obj1 = obj
 
 console.log(deepClone(obj), obj)
 ```

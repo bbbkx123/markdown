@@ -39,20 +39,6 @@
 1. ```::after``` 在目标元素后插入某些内容 
 2. ```::before``` 在目标元素前插入某些内容
 
-## 5. 简述一下flex
-```flex```是 弹性布局  
-基本属性有：
-1. ```flex-direction``` 属性决定主轴的方向（即项目的排列方向）
-2. ```flex-wrap``` 定义如何换行，默认nowrap；wrap，wrap-reverse（换行，第一行在下方）
-3. ```flex-flow``` 上述属性简写
-4. ```justify-content``` 主轴的方向
-  flex-start（左对齐，默认） / flex-end（右对齐）
-  center
-  space-between 两端对齐
-  space-around 项目两侧间隔相等
-
-5. ```align-items``` 交叉轴的方向
-6. ```align-content```
 
 ## 6. sass和scss是什么关系？
 都是css预处理语言，scss是sass3引入的语法，完全兼容css3  
@@ -98,61 +84,8 @@ div
 </style>
 ```
 
-## 8. css居中有哪些方法？
-1. 通过flex
-2. 设置伪元素
-```html
-<div id="test">
-  <div class="box"></div>
-</div>
-```
-```css
- #test {
-    background-color: blue;
-    width: 100%;
-    height: 600px;
-  }
-  .box {
-    display: inline-block;
-    vertical-align: middle;
-    width: 100px;
-    height: 100px;
-    background-color: red;
-    text-align:center;
-  }
-  #test::before {
-    content: '';
-    display: inline-block;
-    vertical-align: middle;
-    height: 100%;
-  }
-  
-```
 
-3. margin:auto
-```css
-div{
-  width: 400px;
-  height: 400px;
-  position: relative;
-  border: 1px solid #465468;
- }
- img{
-  position: absolute;
-  margin: auto 0;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
- }
-```
 
-## 怎样才能形成BFC
-
-float的值不能为none
-overflow的值不能为visible
-display的值为table-cell, table-caption, inline-block中的任何一个
-position的值不为relative和static 
 
 
 

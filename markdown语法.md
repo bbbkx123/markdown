@@ -1,4 +1,4 @@
-$\color{red}{红色22字}$
+$\color{red}$
 $\color{#FF0000}{红色字}$
 <font face="">sasaxaxc</font>
 <font color=#0099ff size=12 face="黑体">黑体</font>

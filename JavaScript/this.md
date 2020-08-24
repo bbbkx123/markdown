@@ -250,6 +250,11 @@ console.log(window.name)
 ```
 
 ## 5. 箭头函数
+* 箭头函数的this指向的是父级作用域的this， 普通函数指向的是它的直接调用者
+* 不可以被当作构造函数
+* 不可以使用arguments对象, 使用扩展运算符 let f3 = (...arr) => { console.log(arr)}
+* 不可以使用yield命令，因此箭头函数不能用作 Generator 函数
+
 
 **题目5.1**
 ```js

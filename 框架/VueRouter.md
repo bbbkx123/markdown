@@ -2,8 +2,14 @@
 **作用:** 建立并管理url和对应组件之间的映射关系(组件之间的切换)
 
 ## 路由组件传参
-**取代与$route的耦合**
+### 布尔模式
+如果```props``` 被设置为 ```true``` ，```route.params``` 将会被设置为组件属性.
+
+### 对象模式
+如果 ```props``` 是一个对象，它会被按原样设置为组件属性。当 ```props``` 是$\color{red}静态$的时候有用。
+
 ```js
+// 依赖于$route（耦合）
 const User = {
   template: '<div>User {{ $route.params.id }}</div>'
 }
@@ -12,48 +18,60 @@ const router = new VueRouter({
     { path: '/user/:id', component: User }
   ] 
 })
-```
 
-**通过props解耦**
-```js
-const User = {
+// new Vue({router, ...})
+
+// 设置props来进行解耦
+const User1 = {
   props: ['id'],
-  template: '<div>User {{ id }}</div>'
+  template: '<div>User1 {{ id }}</div>'
 }
-const router = new VueRouter({
+const router1 = new VueRouter({
   routes: [
-    { path: '/user/:id', component: User, props: true },
-
-    // 对于包含命名视图的路由，你必须分别为每个命名视图添加 `props` 选项：
-    {
-      path: '/user/:id',
-      components: { default: User, sidebar: Sidebar }, // ?
-      props: { default: true, sidebar: false } // ?对象模式
-    },
-    {
-      path: '/user/:id',
-      components: User,
-      props: (route) => ({id: route.params.id}) // url?id=xxx => route.query.id
-    }
+    // boolean模式
+    { path: '/user1/:id', component: User1, props: true },
+    // 函数模式用于变化数据结构
+    // {
+    //   path: '/user1/:id',
+    //   components: User1,
+    //   // 
+    //   props: (route) => ({id: route.params.id}) 
+    // },
+    // 对象模式传递静态值
+    //  { path: '/promotion/from-newsletter', component: Promotion, props: { newsletterPopup: false } }
   ]
 })
+
 ```
 
-### 布尔模式
-如果```props``` 被设置为 ```true``` ，```route.params``` 将会被设置为组件属性.
+## 编程式导航
+```js
 
-### 对象模式
-如果 ```props``` 是一个对象，它会被按原样设置为组件属性。当 ```props``` 是静态的时候有用。
+// 字符串
+router.push('home')
 
+// 对象
+router.push({ path: 'home' })
+
+// 命名的路由
+router.push({ name: 'user', params: { userId: '123' }})
+
+// 带查询参数，变成 /register?plan=private
+router.push({ path: 'register', query: { plan: 'private' }})
+router.push({ path: `/user/${userId}` }) // -> /user/123
+
+```
 
 ## 导航守卫
 
 ### 全局前置守卫
-**beforeEach**
+```beforeEach```
+
 ```js
 router.beforeEach((to, from, next) => {
-  if (to.name !== 'Login' && !isAuthenticated) next({ name: 'Login' })
-  else next()
+  if (to.name !== 'Login' && !isAuthenticated) {
+    next({ name: 'Login' })
+  } else next()
 })
 ```
 
@@ -127,3 +145,14 @@ beforeRouteLeave (to, from, next) {
 ```
 ### 完整的导航解析流程
 ![](图片/VueRouter流程.png)
+
+全局钩子函数2个，组件内钩子函数3个， 路由配置中钩子2个
+
+1. ```beforeRouteLeave``` （组件内）离开该组件的对应路由时调用
+2. ```beforeEach``` （全局）进行路由前
+3. ```beforeRouteUpdate``` （组件内）组件被复用时调用
+4. ```beforeEnter``` （路由配置）进行路由前
+5. ```beforeRouteEnter``` （组件内）组件实例还没被创建,不能访问this
+6. ```beforeResolve``` （路由配置）
+7. ```afterEach``` （全局）
+8. ```beforeRouteEnter``` ===> next() 可以访问this

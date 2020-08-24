@@ -1,21 +1,42 @@
 ## Promise
-1. 什么是 Promise?
-Promise是异步编程的一种解决方式
-2. Promise 解决的痛点是什么?
+### 什么是 Promise?
+Promise是异步编程的一种解决方式  
+Promise对象只有三种状态：
+* ```pendding```: 初始状态，既不是成功，也不是失败状态。
+* ```fulfilled```: 意味着操作成功完成。
+* ```rejected```: 意味着操作失败。
+
+Promise的状态只能由内部改变，并且$\color{red}只可以改变一次$
+<br><br>
+
+### Promise 解决的痛点是什么?
 解决回调地狱
-3. Promise 解决的痛点还有其他方法可以解决吗？如果有，请列举.
+<br><br>
+
+### Promise 解决的痛点还有其他方法可以解决吗？如果有，请列举.
 generator函数, awiat/async
-4. Promise 如何使用? 
+<br><br>
+
+### Promise 如何使用? 
 创建一个Promise实例, 通过then里接收2个方法分别处理resolved和rejected, 异常由catch捕获
-5. Promise 常用的方法有哪些？它们的作用是什么?
+<br><br>
+
+### Promise 常用的方法有哪些？它们的作用是什么?
 ```Promise.resolve()```, ```Promise.reject()```, ```Promise.all()```, ```Promise.race()```, ```then```, ```catch```
-6. Promise 在事件循环中的执行过程是怎样的？
-7. Promise 的业界实现都有哪些？
-  * promise可以支持多个并发的请求，获取并发请求中的数据
+<br><br>
 
-  * promise可以解决可读性的问题，异步的嵌套带来的可读性的问题，它是由异步的运行机制引起的，这样的代码读起来会非常吃力
+### Promise的缺点
+* promise一旦新建，就会立即执行，无法取消
+* 如果不设置回掉函数，promise内部抛出的错误就不会反应到外部
+* 处于pending状态时，是不能知道目前进展到哪个阶段的
 
-8. 能不能手写一个 Promise 的 polyfill?
+### Promise 的业界实现都有哪些？
+* promise可以支持多个并发的请求，获取并发请求中的数据
+* promise可以解决可读性的问题，异步的嵌套带来的可读性的问题，它是由异步的运行机制引起的，这样的代码读起来会非常吃力
+
+<br><br>
+
+### 能不能手写一个 Promise 的 polyfill?
 
 
 **题目1**
@@ -98,14 +119,14 @@ const promise = new Promise((resolve, reject) => {
 });
 promise
 .then(res => {
-    console.log("then1: ", res);
-  }).then(res => {
-    console.log("then2: ", res);
-  }).catch(err => {
-    console.log("catch: ", err);
-  }).then(res => {
-    console.log("then3: ", res);
-  })
+  console.log("then1: ", res);
+}).then(res => {
+  console.log("then2: ", res);
+}).catch(err => {
+  console.log("catch: ", err);
+}).then(res => {
+  console.log("then3: ", res);
+})
 ```
 
 **题目5**
@@ -153,12 +174,11 @@ const promise = Promise.resolve().then(() => {
 })
 promise.catch(console.err)
 ```
-.then 或 .catch 返回的值不能是 promise 本身，否则会造成死循环。
+.then 或 .catch 返回的值$\color{red}不能$是 promise 本身，否则会造成$\color{red}死循环$。
 
 因此结果会报错：
 
-Uncaught (in promise) TypeError: Chaining cycle detected for promise
-
+```Uncaught (in promise) TypeError: Chaining cycle detected for promise```
 
 
 **题目8**
@@ -168,7 +188,7 @@ Promise.resolve(1)
   .then(Promise.resolve(3))
   .then(console.log)
 ```
-其实你只要记住原则8：.then 或者 .catch 的参数期望是函数，传入非函数则会发生值透传。
+```then``` 或者 ```catch``` 的参数期望是函数，传入非函数则会发生$\color{red}值透传$。
 
 第一个then和第二个then中传入的都不是函数，一个是数字类型，一个是对象类型，因此发生了透传，将resolve(1) 的值直接传到最后一个then里。
 
@@ -177,11 +197,12 @@ Promise.resolve(1)
 1
 ```
 
-**题目7**
+**题目8**
 ```js
 async function async1() {
   console.log("async1 start");
   await async2();
+  // 相当于在then中执行console
   console.log("async1 end");
 }
 async function async2() {
@@ -194,11 +215,12 @@ console.log('start')
 
 
 
-**题目7**
+**题目9**
 ```js
 async function async1() {
   console.log("async1 start");
   await async2();
+  // 相当于在then中执行console
   console.log("async1 end");
 }
 async function async2() {
@@ -212,7 +234,7 @@ console.log("start")
 ```
 
 
-**题目7**
+**题目10**
 ```js
 
 ```
