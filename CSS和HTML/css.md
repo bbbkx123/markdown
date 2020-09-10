@@ -5,7 +5,7 @@ Block Format Context, 简单来说就是一个独立不干扰外界也不受外�
 ### 如何生成BFC
 * float的值不能为none
 * overflow的值不能为visible
-* display的值为table-cell, table-caption, inline-block中的任何一个
+* display的值为table-cell, table-caption, inline-block, flex中的任何一个
 * position的值不为relative和static 
 
 ### BFC的作用
@@ -200,3 +200,31 @@ img{
 * flex-shrink 属性定义了项目的缩小比例，默认为1，即如果空间不足，该项目将缩小。
 * flex-basis 属性定义了项目占据主轴的空间，默认为 auto ，即元素本来大小。
 * flex 属性是 flex-grow, flex-shrink 和 flex-basis 的简写，默认值为0 1 auto。
+
+<br>
+
+## 动画
+### transform
+
+### animation 
+```css
+@keyframe name1 {
+  0% {}
+  50% {}
+  100% {}
+}
+
+.xxx {
+  /*动画名称 动画时间 运动曲线 何时开始 播放次数 是否反方向;*/
+  animation: name1 5s linear 0s infinite alternate; 
+}
+```
+
+
+## 溢出隐藏
+``` text-overflow: ellipsis; ```
+
+
+## 兼容性问题
+1. 图片之间默认有间距（使用浮动清除）
+2. ie的怪异盒模型（width + margin），标准盒模型（width + border + padding + margin）
