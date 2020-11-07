@@ -222,7 +222,13 @@ img{
 
 
 ## 溢出隐藏
-``` text-overflow: ellipsis; ```
+```CSS
+{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+```
 
 
 ## 兼容性问题
