@@ -15,7 +15,7 @@
 ``` componentDidUpdate ```
 如果你需要执行副作用（例如，数据提取或动画）以响应 props 中的更改
 
+!['Reactv16.0前的生命周期'](./图片/Reactv16.0前的生命周期.jpg)
 
-![](./图片/react生命周期1111.png)
 
-
+!['Reactv16.0前的生命周期'](./图片/Reactv16.4+的生命周期图.png)
