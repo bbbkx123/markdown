@@ -217,6 +217,21 @@ Babel其实是一个编译JavaScript的平台，它可以编译代码帮你达�
 ### plugins
 插件目的在于解决 loader 无法实现的其他事。
 
+#### 性能分析
+```js
+// npm install webpack-bundle-analyzer --save-dev
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+
+{
+  ...,
+  plugins: [
+    new BundleAnalyzerPlugin()
+  ]
+}
+
+
+```
+
 #### 自定义一个plugin
 ```js
 class myPlugins {
