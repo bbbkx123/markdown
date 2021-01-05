@@ -41,15 +41,12 @@ class Test extends React.Component {
 
 ## 组件通信
 
-### 父传子
-父组件通过行间属性传递数据到子组件,子组件通过实例上的props属性接收新的数据
-React 的数据是单向数据流，只能一层一层往下传递。当组件的属性发生改变，那么当前的视图就会更新
+* 父组件向子组件通信(props)
+* 子组件向父组件通信(传递回调函数)
+* 跨级组件通信(Provider, Consumer)
+* 没有嵌套关系组件之间的通信(emit)
 
-### 子传父
-父组件传递一个function到子组件, 子组件传入参数进行调用
-
-### 跨级父传子
-> context
+### 跨级组件通信
 
 ```js
 // 父组件
@@ -114,6 +111,23 @@ class Test extends React.Component {
   }
 }
 ```
+### 没有嵌套关系组件之间的通信
+
+```js
+import {EventEmitter} from 'events'
+
+const Emitter = new EventEmitter()
+
+// 订阅
+Emitter.addListener('my-event', (param) => {
+  // ......
+})
+
+// 发布
+Emitter.emit('my-event', 123)
+
+```
+
 
 
 ## ref和refs
@@ -145,15 +159,35 @@ class Input extends Component {
 ```js
 class Input extends React.Component {
     
-    componentDidMount() {
-        console.log(this.a); //获取真实的DOM元素
-    }
-    render() {
-        return (
-            <div>
-               <input type="text" ref={x=>this.a = x}/> 
-            </div>
-        );
-    }
+  componentDidMount() {
+    console.log(this.a); //获取真实的DOM元素
+  }
+  render() {
+    return (
+      <div>
+        <input type="text" ref={x=>this.a = x}/> 
+      </div>
+    );
+  }
 }
 ```
+
+
+## react生命周期
+``` static getDerivedFromProps  ```   
+会在调用 render 方法之前$\color{red}调用$，并且在初始挂载及后续更新时都会被调用。它应返回一个对象来更新 state，如果返回 null 则不更新任何内容
+
+<br>
+
+``` shouldComponentUpdate ```  
+会在渲染执行之前被调用。返回值默认为 true
+
+<br>
+
+``` componentDidUpdate ```
+如果你需要执行副作用（例如，数据提取或动画）以响应 props 中的更改
+
+!['Reactv16.0前的生命周期'](./图片/Reactv16.0前的生命周期.jpg)
+
+
+!['Reactv16.0前的生命周期'](./图片/Reactv16.4+的生命周期图.png)

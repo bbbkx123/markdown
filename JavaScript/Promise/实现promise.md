@@ -12,6 +12,13 @@
 // 9. Promise.resolve(错误较多) / Promise.reject 实现
 // 10. Promise.all / Promise.race 实现 (错误较多)
 
+// 出现的问题: 
+// 1. instanceof 不能通过单元测试, 尽量使用typeof进行判断
+// 2. all / race
+
+// npm install -g promises-aplus-tests
+// promises-aplus-tests xxxxxx.js
+
 const { reject } = require("./promise");
 
 const Pending = Symbol("Pending");
