@@ -101,25 +101,45 @@ console.log(Foo instanceof Function, myinstanceof(Foo, Function))
 ```
 
 ## Object.create
+```Object.create(Object.prototype)``` 等同于 ```{}```, ```Object.create(null)``` 可以创建一个干净且高度可定制的对象当作数据字典;
+
 ```js
-function myObjCreate (funcPrototype) {
-  let target = {}
-  target.__proto__ = funcPrototype
-
-  let F = new Function()
-  F.prototype = funcPrototype
-
-  return new F()
+// proto 原型对象; descriptor属性描述符
+function myObjectCreate (proto, descriptor) {
+  let temp = {}
+  Object.setPrototypeOf(temp, proto)
+  let keys = Object.keys(descriptor)
+  if (keys.length > 0) {
+    keys.forEach((key) => Object.defineProperty(temp, key, descriptor[key]))
+  }
+  return temp
 }
 
 // 测试
+let descriptor = {
+  b: {
+    writable: true,
+    configurable: true,
+    enumerable: true,
+    value: 'bbbb'
+  },
+  c: {
+    configurable: true,
+    get() {
+      return 'cccc'
+    },
+    set(value) {
+      return value
+    }
+  }
+}
 function Super () {}
 Super.prototype.name = 'kiana'
 
-let sup1 = Object.create(Super.prototype)
+let sup1 = Object.create(Super.prototype, descriptor)
 console.log(sup1)
 
-let sup2 = myObjCreate(Super.prototype)
+let sup2 = myObjectCreate(Super.prototype, descriptor)
 console.log(sup2)
 
 ```
