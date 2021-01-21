@@ -235,6 +235,46 @@ console.log("start")
 
 
 **题目10**
+> 我们现在要实现一个红绿灯，把一个圆形 div 按照绿色 3 秒，黄色 1 秒，红色 2 秒循环改变背景色
 ```js
+function changeColor (color, duration) {
+  return new Promise((resolve, reject) => {
+    for (let i = 0; i < duration; i++) {
+      setTimeout(() => {
+        console.log(color);
+        if (i === duration - 1) resolve()
+      }, (i + 1) * 1000)
+    }
+  })
+}
+
+async function main () {
+  await changeColor('green', 3)
+  await changeColor('yellow', 1)
+  await changeColor('red', 2)
+  run()
+}
+
+main()
+
+// 标准实现
+// function sleep(duration){
+//     return new Promise(function(resolve){
+//         setTimeout(resolve, duration);
+//     })
+// }
+// async function changeColor(duration,color){
+//     document.getElementById("traffic-light").style.background = color;
+//     await sleep(duration);
+
+// }
+// async function main(){
+//     while(true){
+//         await changeColor(3000,"green");
+//         await changeColor(1000, "yellow");
+//         await changeColor(2000, "red");
+//     }
+// }
+// main()
 
 ```
