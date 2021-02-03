@@ -36,6 +36,8 @@ generator函数, awiat/async
 
 <br><br>
 
+> try catch 无法捕捉 Promise 的异常，是因为 Promise 的异常没有往上抛。
+
 ### 能不能手写一个 Promise 的 polyfill?
 
 
