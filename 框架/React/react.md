@@ -114,6 +114,7 @@ class Test extends React.Component {
 ### 没有嵌套关系组件之间的通信
 
 ```js
+// react Events
 import {EventEmitter} from 'events'
 
 const Emitter = new EventEmitter()
@@ -191,3 +192,26 @@ class Input extends React.Component {
 
 
 !['Reactv16.0前的生命周期'](./图片/Reactv16.4+的生命周期图.png)
+
+
+## react-router
+```jsx
+import { withRouter, BrowserRouter as Router } from "react-router-dom";
+
+const _component = (props) => {
+  return <div>_component</div>
+}
+
+// withRouter需要放在<Router>里面
+export default withRouter(_component)
+
+```
+
+## react合成事件
+> 是 React 模拟原生 DOM 事件所有能力的一个事件对象
+
+其主要有三个目的:
+* 进行浏览器兼容(将不同平台事件模拟合成事件)，实现更好的跨平台
+* 避免垃圾回收
+* 方便事件统一管理和事务机制
+
