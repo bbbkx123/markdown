@@ -19,8 +19,6 @@
 // npm install -g promises-aplus-tests
 // promises-aplus-tests xxxxxx.js
 
-const { reject } = require("./promise");
-
 const Pending = Symbol("Pending");
 const Fulfilled = Symbol("Fulfilled");
 const Rejected = Symbol("Rejected");
@@ -203,13 +201,15 @@ class MyPromise {
     return new MyPromise((resolve, reject) => {
       let length = promises.length;
       let values = Array.apply(null, { length });
+      let temp = []
       if (length) {
         for (let i = 0; i < length; i++) {
           // !!!
           MyPromise.resolve(promises[i]).then(
             (res) => {
               values[i] = res;
-              if (values.length === length) {
+              temp.push(res)
+              if (temp.length === length) {
                 resolve(values);
                 return;
               }
