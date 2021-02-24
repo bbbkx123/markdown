@@ -230,15 +230,23 @@ class MyPromise {
   static race(promises) {
     promises = Array.from(promises);
     let length = promises.length;
+    let temp = []
     for (let i = 0; i < length; i++) {
+      if (temp.length >= 1) break
       MyPromise.resolve(promises[i]).then(
         (res) => {
-          resolve(res);
-           // ???
+          if (temp.length === 0) {
+            resolve(res);
+            // ???
+            temp.push(res)
+          }
           return;
         },
         (err) => {
-          reject(err);
+          if (temp.length === 0) {
+            reject(err);
+            temp.push(err)
+          }
           return;
         }
       );
