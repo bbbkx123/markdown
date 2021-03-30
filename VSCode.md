@@ -45,3 +45,33 @@
   ]
 }
 ```
+
+eslint配置
+
+```json
+// 开启eslint校验, 需安装eslint
+{
+  "eslint.autoFixOnSave": true,  //  启用保存时自动修复,默认只支持.js文件
+    "eslint.validate": [
+        "javascript",  //  用eslint的规则检测js文件
+        {
+          "language": "vue",   // 检测vue文件
+          "autoFix": true   //  为vue文件开启保存自动修复的功能
+        },
+        {
+          "language": "html",
+          "autoFix": true
+        },
+    ],
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+    },
+    // 检索过滤
+    "search.exclude": {
+        "**/node_modules": true,
+        "**/bower_components": true,
+        "**/dist": true
+    },
+}
+
+```
