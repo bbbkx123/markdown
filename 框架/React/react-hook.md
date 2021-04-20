@@ -36,6 +36,8 @@ setPersons(persons => {
 # useRef
 
 # useEffect
+https://www.jianshu.com/p/8e296d2712f8  
+精读《useEffect 完全指南》
 
 # useCallback
 
