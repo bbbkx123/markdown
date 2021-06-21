@@ -198,8 +198,7 @@ shouldComponentUpdate (nextProps, nextState, nextContext) {
 ```
 
 `getSnapshotBeforeUpdate`  
-在最近一次的 render 完将要 commit 给 DOM 的时候会调用，这个方法能够使得组件可以在可能更改之前从 DOM 捕获一些信息，比如滚动的位置等等。这个方法返回的任何值，都会传递给` componentDidUpdate(nextProps, nextState, snapshot)`。  
-这个方法一般来说是不会使用的，不过它可能会出现在需要以特殊方式进行处理 UI，比如像是聊天线程中处理滚动位置。
+在最近一次的 render 完将要 commit 给 DOM 的时候会调用，这个方法能够使得组件可以在可能更改之前从 DOM 捕获一些信息，比如滚动的位置等等。这个方法返回的任何值，都会传递给` 
 
 ```js
 
@@ -222,19 +221,21 @@ componentDidUpdate(prevProps, prevState, snapshot) {
 }
 ```
 
-```componentDidUpdate```
+```componentDidUpdate(nextProps, nextState, snapshot)```
 如果你需要执行副作用（例如，数据提取或动画）以响应 props 中的更改
 
-``` componentDidMount```
+```componentDidMount```
 
-```componentWillUnmount```
+```UNSAFE_componentWillUnmount```
+
+```UNSAFE_componentWillUpdate```
+> 如果 shouldComponentUpdate() 返回 false，则不会调用 UNSAFE_componentWillUpdate()。
 
 
 
+!['Reactv16.0前的生命周期'](../../图片/Reactv16.0前的生命周期.jpg)
 
-!['Reactv16.0前的生命周期'](../图片/Reactv16.0前的生命周期.jpg)
-
-!['Reactv16.0前的生命周期'](../图片/Reactv16.4+的生命周期图.png)
+!['Reactv16.0前的生命周期'](../../图片/Reactv16.4+的生命周期图.png)
 
 ## react-router
 
