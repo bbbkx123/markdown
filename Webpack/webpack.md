@@ -1,45 +1,58 @@
-## 是什么
+webpack性能优化的配置的总配置 https://juejin.cn/post/6903404018945654791#heading-10
+
+
+## 什么是webpack？
+
 webpack 是一个现代 JavaScript 应用程序的静态模块打包器(module bundler)。
 
-## 模块化
-### 简单实现（早期）
-```js
-(function ModuleStudent (window) {
-  let name = 'kiana'
-  let sex = 'girl'
-  function tell () {
-    console.log(`我是${name},一个${sex}`)
-  }
-  window.ModuleStudent = {tell}
-})(window)
-```
-### 优点
-* 作用域封装
-* 重用性
-* 解除耦合
+## webpack有什么作用？
+1. ```模块打包```
+可以将不同的模块==整合==到一起， 并且保证它们之间的==引用正确==，有序执行。**利用打包我们可以自由划分模块，保证项目结构清晰和可读性**。
+
+2. ```编译兼容```
+使用 ```loader``` 对代码做 polyfill（支持新的特性，如api），还可以编译```less, vue, jsx```等浏览器无法识别的文件，使用新的特性提高开发效率。
 
 
-## 基本功能
-1. 代码转换：TypeScript 编译成 JavaScript、SCSS 编译成 CSS 等等
-2. 文件优化：压缩 JavaScript、CSS、HTML 代码，压缩合并图片等
-3. 代码分割：提取多个页面的公共代码、提取首屏不需要执行部分的代码让其异步加载
-4. 模块合并：在采用模块化的项目有很多模块和文件，需要构建功能把模块分类合并成一个文件
-5. 自动刷新：监听本地源代码的变化，自动构建，刷新浏览器
-6. 代码校验：在代码被提交到仓库前需要检测代码是否符合规范，以及单元测试是否通过
-7. 自动发布：更新完代码后，自动构建出线上发布代码并传输给发布系统。
+3. ```能力扩展```
+使用```plugin```机制，可以在模块打包和编译兼容的基础上，进行==按需加载==和==代码压缩==等一系列功能，提高工程效率和打包输出文件质量。
 
-## 构建过程
-1. 从$\color{red}入口文件开始$，分析整个应用的依赖树
-2. 把每个依赖模块包装起来（webpack是使用__webpack__require__先进行包装，然后加载模块），放入一个$\color{red}数组$等待调用
-3. 实现模块加载的方法，并把它放到模块执行的环境中，确保模块间可以互相调用
-4. 把$\color{red}执行入口文件的逻辑$放在一个函数表达式中，把$\color{red}模块数组$作为形参传入，并立即执行这个函数
+## webpack运行原理
+
+* ```初始化参数``` 读取 ```webpack```配置参数。
+* ``` 开始编译``` 通过读取的参数初始化```Compiler```对象，加载所有配置的插件(plugin)，Compiler的run方法开始执行。
+* ``` 确定入口``` 通过```entry```配置找出所有入口文件。
+* ```模块编译``` 从入口文件出发，使用配置的```loader```进行编译，再找出依赖的模块，使用```loader```进行编译， 递归进行处理。
+* ``` 完成模块编译``` 上一步全部完成后，得到每个模块被编译后的最终内容和依赖关系。
+* ``` 输出资源``` 根据入口文件和依赖关系，组成==一个或者多个包含模块(module)集合==的chunk， 再把每个chunk转换成单独文件加入到输出列表，这是修改输出内容的最后机会。
+* ``` 输出完成``` 根据配置输出路径和文件名，输出到文件系统。
+
+对于chunk的理解
+* chunk是一堆模块（module）的集合
+* 一个entry生成一个chunk
+* chunk是webpack运行过程的代码快， bundle是结果的代码快。
+
+## 有哪些常见的Loader？你用过哪些Loader？
+* ```babel-loader``` image-loader
+* ```babel-loader```
+* ```babel-loader```
+* ```babel-loader```
+* ```babel-loader```
+* ```babel-loader```
+* ```babel-loader```
+
+
+
+
+
 
 ## 安装
-生成```package.json```
+生成 ```package.json```
 ```
 npm init
 ```
-安装```webpack```
+
+
+安装 ```webpack```
 ```
 npm install webpack --save-dev
 npm install webpack-cli --save-dev

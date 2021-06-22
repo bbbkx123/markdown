@@ -1,29 +1,26 @@
 ## HTTP概述
 
-### 一句话概述HTTP
-
 ```HyperText Transfer Protocol``` (超文本传输协议)是计算机里专门两点之间传输文字,图片,音频,视频等超文本数据的约定和规范;
 
 ### HTTP存在的位置
 
-处于 TCP/IP 网络分层模型中的第一层应用层。
+> 处于 TCP/IP 网络分层模型中的第一层应用层。
 
 应用层的其它协议还有：
 
-* FTP：文件传输协议，用来在客户机和FTP服务器之间传输文件。（常用）
-* DNS域名系统：提供域名到IP地址之间的解析服务。（常用）
-* SMTP：邮件发送协议，用户通过SMTP服务器发送邮件。（常用）
+* FTP：文件传输协议，用来在客户机和FTP服务器之间传输文件。
+* DNS: 域名系统, 提供域名到IP地址之间的解析服务。
+* SMTP：简单邮件传输协议，用户通过SMTP服务器发送邮件。
 * DHCP：动态主机配置协议，DHCP服务器为客户机动态分配IP地址。
 * POP3：邮件接收协议，用于从POP3服务器接收邮件。
 
 ### HTTP1.0, HTTP1.1 和 HTTP2.0的区别
 * 缓存处理 HTTP1.0 header里的```If-Modified-Since,Expires```,  HTTP1.1引入```Entity tag，If-Unmodified-Since, If-Match, If-None-Match```
-* HTTP$\color{red}{协议头部压缩}$
+* HTTP ==协议头部压缩==
 * 性能的提升
 
 
-
-## HTTP特点及缺点
+## 特点及缺点
 
 ### HTTP特点
 
