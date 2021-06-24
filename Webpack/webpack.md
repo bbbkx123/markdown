@@ -1,6 +1,5 @@
 webpack性能优化的配置的总配置 https://juejin.cn/post/6903404018945654791#heading-10
 
-
 ## 什么是webpack？
 
 webpack 是一个现代 JavaScript 应用程序的静态模块打包器(module bundler)。
@@ -12,11 +11,13 @@ webpack 是一个现代 JavaScript 应用程序的静态模块打包器(module b
 2. ```编译兼容```
 使用 ```loader``` 对代码做 polyfill（支持新的特性，如api），还可以编译```less, vue, jsx```等浏览器无法识别的文件，使用新的特性提高开发效率。
 
-
 3. ```能力扩展```
 使用```plugin```机制，可以在模块打包和编译兼容的基础上，进行==按需加载==和==代码压缩==等一系列功能，提高工程效率和打包输出文件质量。
 
-## webpack运行原理
+## webpack打包原理
+Webpack 实际上为每个模块创造了一个可以==导出==和==导入==的环境，本质上并没有修改 代码的执行逻辑，代码执行顺序与模块加载顺序也完全一致。
+
+## webpack运行过程
 
 * ```初始化参数``` 读取 ```webpack```配置参数。
 * ``` 开始编译``` 通过读取的参数初始化```Compiler```对象，加载所有配置的插件(plugin)，Compiler的run方法开始执行。
@@ -31,38 +32,22 @@ webpack 是一个现代 JavaScript 应用程序的静态模块打包器(module b
 * 一个entry生成一个chunk
 * chunk是webpack运行过程的代码快， bundle是结果的代码快。
 
-## 有哪些常见的Loader？你用过哪些Loader？
-* ```babel-loader``` image-loader
-* ```babel-loader```
-* ```babel-loader```
-* ```babel-loader```
-* ```babel-loader```
-* ```babel-loader```
-* ```babel-loader```
-
-
-
-
-
-
 ## 安装
-生成 ```package.json```
+1. 使用 ```npm init``` 生成 ```package.json```
+2. 安装 ```webpack```
 ```
-npm init
-```
-
-
-安装 ```webpack```
-```
-npm install webpack --save-dev
-npm install webpack-cli --save-dev
+npm install webpack,webpack-cli --save-dev
 ```
 
-```webpack.config.js```
+## 使用
+webpack模板配置(五大核心配置)
+
 ```js
+// webpack.config.js
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = {
+  mode: 'development',  
   entry: './main.js',
   output: {
     path: path.join(__dirname, 'dist'),
@@ -87,61 +72,35 @@ module.exports = {
     ]
   }
 }
-```
 
-## 使用
-```
-# 全局安装webpack后, entry file是入口文件
-webpack {entry file}
+// 执行webpack
+// 全局安装webpack后, entry file是入口文件
+// webpack {entry file}
 
-# 非全局安装
-node_modules/.bin/webpack {entry file}
+// 非全局安装
+// node_modules/.bin/webpack {entry file}
 
-# 使用npx(npx运行时, 会到node_modules/.bin路径和环境变量$PATH检查命令是否存在)
-npx webpack {entry file}
-```
-
-## 更快捷的执行打包任务
-在```package.json```中进行配置
-```JSON
-{
-  "name": "webpack-sample-project",
-  "version": "1.0.0",
-  "description": "Sample webpack project",
-  "scripts": {
-    // 可以配置自定义命令
-    "start": ""
-  },
-  "author": "zhang",
-  "license": "ISC",
-  "devDependencies": {
-    "webpack": "3.10.0"
-  }
-}
+// 使用npx(npx运行时, 会到node_modules/.bin路径和环境变量$PATH检查命令是否存在)
+// npx webpack {entry file}
 ```
 
 ## webpack功能
 
-### 生成Source Maps（使调试更容易）
+### Source Maps
+sourceMap是一项将编译、打包、压缩后的代码映射回源代码的技术
+
 |         devtool选项          |                                                                                                                     配置结果                                                                                                                      |
 | :--------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
 |          source-map          |                                                                       在一个单独的文件中产生一个完整且功能完全的文件。这个文件具有最好的source map，但是它会减慢打包速度；                                                                        |
 |   cheap-module-source-map    |                                         在一个单独的文件中生成一个不带列映射的map，不带列映射提高了打包速度，但是也使得浏览器开发者工具只能对应到具体的行，不能对应到具体的列（符号），会对调试造成不便；                                         |
 |       eval-source-map        | 使用eval打包源文件模块，在同一个文件中生成干净的完整的source map。这个选项可以在不影响构建速度的前提下生成完整的sourcemap，但是对打包后输出的JS文件的执行具有性能和安全的隐患。在开发阶段这是一个非常好的选项，在生产阶段则一定不要启用这个选项； |
 | cheap-module-eval-source-map |                                                这是在打包文件时最快的生成source map的方法，生成的Source Map 会和打包后的JavaScript文件同行显示，没有列映射，和eval-source-map选项具有相似的缺点；                                                 |
-配置如下:
-```JS
-module.exports = {
-  devtool: 'eval-source-map',
-  entry:  __dirname + "/app/main.js",
-  output: {
-  }
-}
-```
 
 ### 使用webpack构建本地服务器
-**作用:** 让浏览器监听代码的修改，并自动刷新显示修改后的结果
-**安装:**
+> 让浏览器监听代码的修改，并自动刷新显示修改后的结果
+
+
+#### 安装
 ```
 npm install webpack-dev-server --save-dev
 ```
@@ -166,71 +125,15 @@ module.exports = {
 }
 ```
 
-### loader和plugin的区别
-* loader是使webpack拥有加载和解析非js文件的能力
-* plugin是扩展器， 针对是loader结束后，webpack打包的整个过程，它并不直接操作文件，而是基于事件机制工作，会监听webpack打包过程中的某些节点，执行广泛的任务。
+### 说一下 Webpack 的热更新原理吧
+```Webpack``` 的热更新又称热替换（Hot Module Replacement），缩写为 HMR。 这个机制可以做到不用刷新浏览器而将新变更的模块替换掉旧的模块。
 
-### loader
-loader 让 webpack 能够去处理那些非 JavaScript 文件（webpack 自身只理解 JavaScript）。loader 可以将所有类型的文件转换为 webpack 能够处理的有效模块，然后你就可以利用 webpack 的打包能力，对它们进行处理。
+HMR的核心就是客户端从服务端拉去更新后的文件，准确的说是 ```chunk diff```(chunk 需要更新的部分)，实际上 WDS(webpack dev server) 与浏览器之间维护了一个 ```Websocket```，当本地资源发生变化时，WDS 会向浏览器推送更新，并带上构建时的 ```hash```，让客户端与上一次资源进行对比。客户端对比出差异后会向 WDS 发起``` Ajax ```请求来获取更改内容(文件列表、hash)，这样客户端就可以再借助这些信息继续向 WDS 发起 ```jsonp``` 请求获取该chunk的增量更新。
 
-本质上，webpack loader 将所有类型的文件，转换为应用程序的依赖图（和最终的 bundle）可以直接引用的模块。
+后续的部分(拿到增量更新之后如何处理？哪些状态该保留？哪些又需要更新？)由 ```HotModulePlugin``` 来完成，提供了相关 API 以供开发者针对自身场景进行处理，像```react-hot-loader``` 和 ```vue-loader``` 都是借助这些 API 实现 HMR。
 
-配置如下：
-```js
-// test和use
-let baseConfig = {
-  entry: __dirname + '/app/main.js,
-  output: {
-    path: __dirname + '/dist',
-    filename: 'bundle.js'
-  },
-  devtool: ...,
-  module: {
-    rules: [
-      // 注意顺序，先style-loader，再css-loader
-      // 单独使用了css-loader只能保证我们能引用css模块进来，但是并没有效果
-      // 而style-loader就可以创建一个style标签，并且把引入进来的css样式都塞到这个标签里
-      {
-        test: /\.css$/
-        use: [
-          {loader: "style-loader"},
-          {loader: "css-loader"}
-        ]
-      },
-      {
-        test: /\.less$/,
-        use: [
-          {loader: 'style-loader'},
-          {loader: 'css-loader'},
-          {loader: 'less-loader'}
-        ],
-        exclude: /node_modules/
-      },
-      {
-        test: /\.(png|svg|jpg|gif)$/,
-        use: {
-            loader: "file-loader",
-            options: {
-              name: "[name].[ext]",
-              outputPath: "images/",
-            },
-          },
-      }
-      //...
-    ]
-  }
-}
-```
-### babel
-Babel其实是一个编译JavaScript的平台，它可以编译代码帮你达到以下目的：
 
-* 让你能使用最新的JavaScript代码（ES6，ES7...），而不用管新标准是否被当前使用的浏览器完全支持；
-* 让你能使用基于JavaScript进行了拓展的语言，比如React的JSX
-
-### plugins
-插件目的在于解决 loader 无法实现的其他事。
-
-#### 性能分析
+### 如何对bundle体积进行监控和分析
 ```js
 // npm install webpack-bundle-analyzer --save-dev
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
@@ -241,66 +144,16 @@ const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPl
     new BundleAnalyzerPlugin()
   ]
 }
-
-
 ```
 
-#### 自定义一个plugin
-```js
-class myPlugins {
-  constructor (options) {
-    this.options = options || {}
-    this.filename = this.options.filename || 'fileList.md'
-  }
+### 文件指纹
 
-  apply (compiler) {
-    compiler.hooks.emit.tapAsync('myPlugins', (compliation, cb) => {
-      setTimeout(() => {
-        const fileListName = this.filename
-        const len = Object.keys(compliation.assets).length
-        let content = `# 一共有${len}个文件\n\n`
-        for (let filename in compliation.assets) {
-          content += `- ${filename}\n`
-        }
-        compliation.assets[fileListName] = {
-          source () {
-            return content
-          },
-          size () {
-            return content.length
-          }
-        }
-        cb()
-      }, 2000)
-    })
-  }
-}
-module.exports = myPlugins
+### 如何优化 Webpack 的构建速度？
 
-```
 
-使用plugin
-```JS
-var myPlugins = require('./myPlugins')
-var lessRules = {
-    use: [
-        {loader: 'css-loader'},
-        {loader: 'less-loader'}
-    ]
-}
+### 那代码分割的本质是什么？有什么意义呢？有哪些方式？
 
-var baseConfig = {
-  // ... 
-  module: {
-    rules: [
-      // ...
-      {test: /\.less$/, use: ExtractTextPlugin.extract(lessRules)}
-    ]
-  },
-  plugins: [
-    new myPlugins()
-  ]
-}
-```
-1. HtmlWebpackPlugin （打包生成html文件，并引入其他模块文件）
-2. clean-webpack-plugin
+常用代码分割的方法
+* ```Entry Points``` 入口文件设置的时候可以配置, 当多入口文件包含重复模块时, 重复模块会分别引入到bundle找那个
+* ```CommonsChunkPlugin``` 这个插件可以抽取所有入口文件都依赖了的模块，把这些模块抽取成一个新的bundle, 解决了 Entry Points 出现的问题
+* ```Dynamic Imports``` 动态引入 ???
