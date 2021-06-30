@@ -1,5 +1,10 @@
 webpack性能优化的配置的总配置 https://juejin.cn/post/6903404018945654791#heading-10
 
+重学webpack(开发环境的配置) https://juejin.cn/post/6902761903605415950#heading-10
+
+webpack基础 https://juejin.cn/post/6844904094281236487#heading-16
+
+
 ## 什么是webpack？
 
 webpack 是一个现代 JavaScript 应用程序的静态模块打包器(module bundler)。
@@ -150,10 +155,16 @@ const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPl
 
 ### 如何优化 Webpack 的构建速度？
 
-
 ### 那代码分割的本质是什么？有什么意义呢？有哪些方式？
 
 常用代码分割的方法
 * ```Entry Points``` 入口文件设置的时候可以配置, 当多入口文件包含重复模块时, 重复模块会分别引入到bundle找那个
 * ```CommonsChunkPlugin``` 这个插件可以抽取所有入口文件都依赖了的模块，把这些模块抽取成一个新的bundle, 解决了 Entry Points 出现的问题
 * ```Dynamic Imports``` 动态引入 ???
+
+
+代码分割的本质其实就是在源代码直接上线和打包成唯一脚本main.bundle.js这两种极端方案之间的一种更适合实际场景的中间状态。
+
+源代码直接上线：虽然过程可控，但是http请求多，性能开销大。
+
+打包成唯一脚本：一把梭完自己爽，服务器压力小，但是页面空白期长，用户体验不好。
